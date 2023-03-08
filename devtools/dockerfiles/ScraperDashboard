@@ -1,0 +1,16 @@
+FROM node:18
+
+# Application 
+ENV TZ="Asia/Manila"
+
+WORKDIR /app
+
+COPY devtools/dockerfiles/scraper-dashboard.package.json ./package.json
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["node", "bull-monitor.js"]

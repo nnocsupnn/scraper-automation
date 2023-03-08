@@ -1,0 +1,63 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- prod
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      New-Item .container.password
+      Set-Content .container.password 'XXXXXXX/osOnZ+XXXXXX+bGH77e+XXXXX'
+  displayName: 'Generate a password for CR'
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '17.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'Install dependencies'
+
+- script: |
+    npm run test
+  displayName: 'Run Tests'
+
+- script: |
+    npm run build --env=prod
+  displayName: 'Build Image'
+  
+- script: |
+    npm run push --env=prod
+  displayName: 'Push Image'
+  
+- task: DeleteFiles@1
+  displayName: 'Delete files from $(System.DefaultWorkingDirectory)'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '*node_modules/*'
+  
+- task: CopyFiles@2
+  displayName: 'Copy Files to $(build.ArtifactProdDirectory)'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+      **/*
+      !node_modules/**/*
+    TargetFolder: '$(build.ArtifactProdDirectory)'
+    CleanTargetFolder: true
+    OverWrite: true
+    
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.ArtifactProdDirectory)'

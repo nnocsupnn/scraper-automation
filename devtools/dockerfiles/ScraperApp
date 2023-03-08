@@ -1,0 +1,18 @@
+FROM node:18
+
+# Application 
+ENV TZ="Asia/Manila"
+
+WORKDIR /app
+
+COPY devtools/dockerfiles/scraper-app.package.json ./package.json
+
+COPY ./package.json ./p.json
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

@@ -1,0 +1,60 @@
+{
+  "name": "mycure-scraper",
+  "version": "2.2.1",
+  "description": "A tool for created to generate medical result as a pdf file.",
+  "main": "app.js",
+  "config": {
+    "env": "staging",
+    "container_url": "cr.azurecr.io",
+    "container_username": "medicardcr001"
+  },
+  "scripts": {
+    "test": "mocha --timeout 5000 tests",
+    "st": "snyk auth && snyk test",
+    "monitor": "snyk monitor",
+    "queue": "node app-queue.js",
+    "tag": "git tag -a v%npm_package_version%-%npm_config_env% -m \"Release version %npm_package_version%\" && git push origin --tags",
+    "prepush": "npm config set env=staging",
+    "publish": "npm version patch",
+    "predeploy": "npm config set env=staging",
+    "prebuild": "npm config set env=staging",
+    "start": "echo \"Please run the test 'npm run test' before running the app.\" && node app.js",
+    "build": "docker build -f ./devtools/dockerfiles/ScraperApp -t  $npm_package_config_container_url/scraper-app:$npm_package_version-$npm_config_env . && docker build -f ./devtools/dockerfiles/ScraperQueue -t $npm_package_config_container_url/scraper-queue:$npm_package_version-$npm_config_env . && docker build -f ./devtools/dockerfiles/ScraperDashboard -t $npm_package_config_container_url/scraper-dashboard:$npm_package_version-$npm_config_env . ",
+    "push": "docker login $npm_package_config_container_url -u=$npm_package_config_container_username --password-stdin < .container.password && docker push $npm_package_config_container_url/scraper-app:$npm_package_version-$npm_config_env && docker push $npm_package_config_container_url/scraper-queue:$npm_package_version-$npm_config_env && docker push $npm_package_config_container_url/scraper-dashboard:$npm_package_version-$npm_config_env",
+    "deploy": "kubectl delete deploy scraper-queue && kubectl delete deploy scraper-dashboard && kubectl delete deploy scraper-app && kubectl apply -f ./devtools/$npm_config_env/scraper-app.yaml"
+  },
+  "keywords": [],
+  "author": "Nino Casupanan",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/storage-blob": "^12.12.0",
+    "@bull-monitor/express": "^5.0.1",
+    "axios": "^1.2.2",
+    "bull": "^4.10.2",
+    "cors": "^2.8.5",
+    "custom-env": "^2.0.1",
+    "dotenv": "^16.0.3",
+    "etag": "^1.8.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "helmet": "^6.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "jwt-check-expiry": "^1.0.10",
+    "luxon": "^3.2.1",
+    "monitoro": "^0.1.6",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "puppeteer": "^19.5.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "concurrently": "^7.6.0",
+    "cross-var": "^1.1.0",
+    "ioredis": "^5.2.4",
+    "mocha": "^10.2.0",
+    "snyk": "^1.1082.0"
+  }
+}

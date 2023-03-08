@@ -1,0 +1,14 @@
+{
+    "dependencies": {
+      "@bull-monitor/express": "^5.0.1",
+      "axios": "^1.2.2",
+      "bull": "^4.10.2",
+      "cors": "^2.8.5",
+      "custom-env": "^2.0.1",
+      "dotenv": "^16.0.3",
+      "jwt-check-expiry": "^1.0.10",
+      "luxon": "^3.2.1",
+      "monitoro": "^0.1.6"
+    }
+  }
+  

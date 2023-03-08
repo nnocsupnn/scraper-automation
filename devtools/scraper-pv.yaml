@@ -1,0 +1,36 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: scraper-storage-class
+  namespace: scraper
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: scraper
+  name: scraper-pv
+spec:
+  storageClassName: scraper-storage-class
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/scraper"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: scraper
+  name: scraper-pvc
+spec:
+  storageClassName: scraper-storage-class
+  resources:
+    requests: 
+      storage: 10Gi
+  accessModes:
+    - ReadWriteMany

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scraper-dashboard
+  namespace: scraper
+  labels:
+    app: scraper-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scraper-dashboard
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: scraper-dashboard
+    spec:
+      containers:
+        - name: scraper-dashboard
+          image: medicardcr001.azurecr.io/scraper-dashboard:2.2.1-prod
+          env:
+            - name: NODE_ENV
+              value: prod
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+      - name: myregistry

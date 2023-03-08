@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scraper-queue
+  namespace: scraper
+  labels:
+    app: scraper-queue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: scraper-queue
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 4
+      maxUnavailable: 2
+  template:
+    metadata:
+      labels:
+        app: scraper-queue
+    spec:
+      containers:
+        - name: scraper-queue
+          image: medicardcr001.azurecr.io/scraper-queue:2.2.1-prod
+          env:
+            - name: NODE_ENV
+              value: prod
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: scraper-pv
+            mountPath: /bin
+
+      imagePullSecrets:
+      - name: myregistry
+      volumes:
+      - name: scraper-pv
+        persistentVolumeClaim:
+          claimName: scraper-pvc
