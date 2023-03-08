@@ -4,7 +4,7 @@ const { UriBuilder } = require('../util')
 
 /**
  * 
- * Implementation of MyCure API
+ * Implementation of Source API
  * 
  * @author Nino Casupanan
  */
@@ -50,7 +50,7 @@ module.exports.SourceApi = class SourceApi {
 
     /**
      * Get the list of test
-     * @param {*} type type of test in mycure there are two types - `radiology` and `laboratory`
+     * @param {*} type type of test in source there are two types - `radiology` and `laboratory`
      * @param {*} testId if want to select specific testId
      * @returns SourceApi
      */

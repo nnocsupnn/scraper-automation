@@ -1,6 +1,6 @@
 /**
  * 
- * MyCure Scraper for Result
+ * Scraper for Result
  * 
  * @author Nino Casupanan
  * @memberof Medicardphils

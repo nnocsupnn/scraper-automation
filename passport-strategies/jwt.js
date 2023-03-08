@@ -4,7 +4,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 module.exports = new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.SECRET_KEY,
-    issuer: 'mycure-scraper-tool'
+    issuer: 'scraper-tool'
 }, (payload, done) => {
     // Find the user specified in the token
     // TODO: Database user implementation

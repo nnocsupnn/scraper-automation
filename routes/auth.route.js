@@ -63,7 +63,7 @@ module.exports.auth = (baseUri, server) => {
                 process.env.SECRET_KEY, 
                 { 
                     expiresIn: '30m',
-                    issuer: 'mycure-scraper-tool',
+                    issuer: 'scraper-tool',
                     algorithm: 'HS256'
                 }
             );

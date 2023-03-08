@@ -1,4 +1,4 @@
-# **MyCure MedGO Scraper**
+# **Scraper**
 
 > MedGO Results is a project to integrate CMS Results from a third party application to our own inhouse mobile application Medicard GO
 

@@ -9,10 +9,10 @@ const chromeOptions = {
     ignoreHTTPSErrors: true
 };
 const defaultTimeout = 120000;
-let myCureData = {
-	host: "https://stg-mycure-cms.medicardphils.com/",
+let sourceOption = {
+	host: "https://scraper-source.com/",
 	login: {
-		email: "superadmin@medicardphils.com",
+		email: "test@email.com",
 		password: "strongadminpassword",
 	},
 };
@@ -22,14 +22,14 @@ let myCureData = {
  * Implementation of puppeteer for custom use
  * @author Nino Casupanan
  */
-module.exports.MyCureScraper = class MyCureScraper {
+module.exports.Scraper = class Scraper {
     constructor(params, job, headless = true) {
         chromeOptions.headless = headless
 
         this.params = params // type, memberCode, testPathId
-        myCureData.host = process.env.SOURCE_HOST || 'https://source-scraper.com/'
-        myCureData.login = {
-            email: process.env.SOURCE_EMAIL || "superadmin@medicardphils.com",
+        sourceOption.host = process.env.SOURCE_HOST || 'https://source-scraper.com/'
+        sourceOption.login = {
+            email: process.env.SOURCE_EMAIL || "test@email.com",
             password: process.env.SOURCE_PASSWORD || "strongadminpassword"
         }
 
@@ -94,10 +94,10 @@ module.exports.MyCureScraper = class MyCureScraper {
         console.log(`\n[EVENT][#${this.job.id}][LOGIN]: Logging in..`)
         // Enter the username and password
         const username = await page.$('input[type="email"]');
-        await username.type(myCureData.login.email);
+        await username.type(sourceOption.login.email);
     
         const password = await page.$('input[type="password"]');
-        await password.type(myCureData.login.password);
+        await password.type(sourceOption.login.password);
     
         // Submit the login form
         await page.click('[data-test-id="login-btn"]');
@@ -170,7 +170,7 @@ module.exports.MyCureScraper = class MyCureScraper {
             }))
 
             // Navigate to the login page
-            await page.goto(myCureData.host, {
+            await page.goto(sourceOption.host, {
                 timeout: defaultTimeout,
             })
 
@@ -179,7 +179,7 @@ module.exports.MyCureScraper = class MyCureScraper {
             this.job.progress(50)
 
             const typeUri = this.params.type === 'radiology' ? 'ris' : 'lis'
-            const testUri = `${myCureData.host}cms/${typeUri}/test/${this.params.testPathId}`
+            const testUri = `${sourceOption.host}cms/${typeUri}/test/${this.params.testPathId}`
             await page.goto(testUri, { timeout: 120000, waitUntil: 'networkidle0' })
             await page.waitForSelector('.mdi-printer', {
                 timeout: 120000

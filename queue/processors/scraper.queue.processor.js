@@ -1,4 +1,4 @@
-const { MyCureScraper } = require('../../components/MyCureScraper')
+const { Scraper } = require('../../components/Scraper')
 const { AzureBlobService } = require('../../components/AzureBlobService')
 const { getCurrentDateStr } = require("../util.queue")
 const hostname = require("os").hostname();
@@ -29,7 +29,7 @@ module.exports = async (job, done) => {
             return
         }
 
-        const scraper = new MyCureScraper(request, job, true)
+        const scraper = new Scraper(request, job, true)
         await scraper.startBrowser()
         await scraper.scrape(done)
             .then(res => resolve(res))

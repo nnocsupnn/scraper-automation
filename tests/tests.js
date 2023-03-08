@@ -13,5 +13,5 @@ const { appEnv } = require('../util')
 require('custom-env').env(appEnv())
 // Tests
 // require('./redis/redis.test')
-require('./mycure/mycure.test')
+require('./source/source.test')
 require('./azure/upload.test')

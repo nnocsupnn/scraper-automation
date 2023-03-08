@@ -123,7 +123,7 @@ module.exports.AzureBlobService = class AzureBlobService {
             const dtstr = `${(dt.getMonth() + 1)}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`
             const uploadOpts = {
                 metadata: { reviewer: 'system', reviewDate: dtstr, ...metadata, uploadDate: dtstr },
-                tags: { project: 'mycure-scraper', owner: 'medicardphils' },
+                tags: { project: 'scraper', owner: 'medicardphils' },
                 onProgress: (prog) => {
                     console.info(`${getPercentageOfCompletion(prog.loadedBytes, fileSize)}% (${formatBytes(prog.loadedBytes)}) of ${formatBytes(fileSize)} uploaded. `)
                 },

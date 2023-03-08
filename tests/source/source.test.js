@@ -3,13 +3,13 @@ const { expect } = require('chai')
 
 /**
  * 
- * MyCure API tests 
+ * API tests 
  * 
  * @author Nino Casupanan
  * @memberof Medicard
  */
-describe('* Test MyCure API', () => {
-    const memberCode = "RXER22891"
+describe('* Test Source API', () => {
+    const memberCode = "XXXXXX"
     describe('should be able to get the patient details', () => {
         it(`should match the data of ${memberCode}`, async () => {
             const api = new SourceApi()

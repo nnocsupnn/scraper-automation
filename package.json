@@ -1,5 +1,5 @@
 {
-  "name": "mycure-scraper",
+  "name": "scraper",
   "version": "2.2.1",
   "description": "A tool for created to generate medical result as a pdf file.",
   "main": "app.js",

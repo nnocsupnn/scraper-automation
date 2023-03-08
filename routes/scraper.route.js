@@ -32,7 +32,7 @@ module.exports.scraper = (router, args) => {
      *     summary: Request
      *     tags:
      *       - app
-     *     description: Resource for requesting pdf result from myCure.
+     *     description: Resource for requesting pdf result from source.
      *     responses:
      *       202:
      *         description: Acknowledgedment response

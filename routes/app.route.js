@@ -13,7 +13,7 @@ module.exports.app = (router, args) => {
      *     tags:
      *       - blob
      *     operationId: getLinksByPatient
-     *     description: Resource for getting the blob links of the generated results from myCure.
+     *     description: Resource for getting the blob links of the generated results from srouce.
      *     responses:
      *       200:
      *         description: List of links generated
