@@ -9,9 +9,10 @@
 const { appEnv } = require('./util')
 // Load application env based on git branch
 require('custom-env').env(appEnv())
-const { ExpressApi } = require('./components/ExpressApi')
+const { ExpressApi } = require("expressjs-app")
 const { Queue } = require('./components/Queue')
 const swaggerDoc = require('./swagger')
+const jwtStrategy = require('./passport-strategies/jwt')
 
 
 const { scraper, auth, app } = require('./routes')
@@ -40,7 +41,7 @@ const queue = new Queue({
  * 
  * API Config Block
  */
-const apiInstance = new ExpressApi({ enableCors: true, lastRouteHandler: invalid, docsModule: swaggerDoc })
+const apiInstance = new ExpressApi({ enableCors: true, lastRouteHandler: invalid, docsModule: swaggerDoc, jwtStrategy })
 apiInstance.registerRoutes(
         {
             method: scraper, args: { queue: queue }, name: 'scraper'
@@ -57,4 +58,4 @@ apiInstance.registerRoutes(
         const jobOpt = JSON.parse(process.env.JOB_OPTS || '{}')
         console.info(`Redis Configuration: ${JSON.stringify(option.redis, null, 4)}`)
         console.info(`Queue Configuration: ${JSON.stringify(jobOpt, null, 4)}`)
-    }, baseUri)
+    })
